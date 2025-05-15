@@ -5,7 +5,7 @@ Each folder includes working implementations, from data structures to design pat
 
 ## Topics covered
 
-- Data Structures (Linked List, Binary Tree)
+- Data Structures (Linked List, Binary Tree, Red Black Tree)
 - Algorithms (Sorting, Searching)
 - Design Patterns (WIP)
 - SOLID Principles (WIP)
