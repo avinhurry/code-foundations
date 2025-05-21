@@ -49,11 +49,90 @@ class RedBlackTree
         node.grandparent.colour = :red
         node = node.grandparent
       else
-        # Cases 2 & 3 will go here later
-        break
+        gp = node.grandparent
+
+        if node == node.parent.right && node.parent == gp.left
+          # Case 2: left to right
+          
+          rotate_left(node.parent)
+          node = node.left
+        elsif node == node.parent.left && node.parent == gp.right
+          # Case 2 (mirror): right to left
+
+          rotate_right(node.parent)
+          node = node.right
+        end
+
+        # Case 3: straight line
+        
+        node.parent.colour = :black
+        gp.colour = :red
+
+        if node == node.parent.left
+          rotate_right(gp)
+        else
+          rotate_left(gp)
+        end
       end
     end
 
     root.colour = :black
+  end
+
+  def rotate_left(pivot)
+    # new_root is assigned to the right child of the pivot
+    new_root = pivot.right
+
+    # Move new_roots left child to pivots right
+    pivot.right = new_root.left
+    new_root.left.parent = pivot if new_root.left
+
+    # Link new_root to pivots parent
+    new_root.parent = pivot.parent
+
+    if pivot.parent.nil?
+      # Pivot was root so update tree root
+      self.root = new_root
+    elsif pivot == pivot.parent.left
+      # Pivot was a left child, reattach new_root there
+      pivot.parent.left = new_root
+    else
+      # Pivot was a right child, reattach new_root there
+      pivot.parent.right = new_root
+    end
+
+    # Move pivot below new_root
+    new_root.left = pivot 
+    # Update pivots parent to point to new root
+    pivot.parent = new_root
+  end
+
+
+  def rotate_right(pivot)
+    # new_root is assigned to the left child of the pivot
+    new_root = pivot.left
+
+    # Move new_root's right child to pivot's left
+    pivot.left = new_root.right
+    new_root.right.parent = pivot if new_root.right
+
+    # Link new_root to pivots parent
+    new_root.parent = pivot.parent
+
+    if pivot.parent.nil?
+      # Pivot was root so update tree root
+      self.root = new_root
+    elsif pivot == pivot.parent.right
+      # Pivot was a right child, reattach new_root there
+      pivot.parent.right = new_root
+    else
+      # Pivot was a left child, reattach new_root there
+      pivot.parent.left = new_root
+    end
+
+    # Move pivot below new_root
+    new_root.right = pivot 
+    # Update pivots parent to point to new root
+    pivot.parent = new_root
   end
 end
