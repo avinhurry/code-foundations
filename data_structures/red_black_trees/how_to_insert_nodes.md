@@ -195,3 +195,6 @@ so this is a LL case. We rotate right at 20 and recolour.
     10(R)
 ```
 
+## Final tree
+
+![Red-Black Tree](./tree.svg)

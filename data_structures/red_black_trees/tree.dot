@@ -1,0 +1,22 @@
+digraph RedBlackTree {
+  node [fontname="Arial"];
+
+  // Nodes with colors
+  n30 [label="30", style=filled, fillcolor=black, fontcolor=white];
+  n4  [label="4",  style=filled, fillcolor=black, fontcolor=white];
+  n45 [label="45", style=filled, fillcolor=black, fontcolor=white];
+  n1  [label="1",  style=filled, fillcolor=black, fontcolor=white];
+  n20 [label="20", style=filled, fillcolor=red];
+  n8  [label="8",  style=filled, fillcolor=black, fontcolor=white];
+  n25 [label="25", style=filled, fillcolor=black, fontcolor=white];
+  n10 [label="10", style=filled, fillcolor=red];
+
+  // Edges
+  n30 -> n4;
+  n30 -> n45;
+  n4  -> n1;
+  n4  -> n20;
+  n20 -> n8;
+  n20 -> n25;
+  n8  -> n10;
+}
