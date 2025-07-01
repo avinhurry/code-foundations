@@ -38,7 +38,7 @@
 - `make_move(pos)`: Places `current_player`'s mark at `pos` if valid.
 - `winner?()`: Returns `:X`, `:O`, or `nil`.
 - `game_over?()`: Returns `true` if game ended.
-- `available_moves()`: Returns array of valid positions (e.g., `[0,
+- `available_moves()`: Returns array of valid positions (e.g., `[0,X]`)
 
 ## **`Minimax`**
 
