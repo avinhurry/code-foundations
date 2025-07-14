@@ -1,4 +1,4 @@
-class HashTable
+class Chaining
   def initialize(size = 16)
     @size = size
 

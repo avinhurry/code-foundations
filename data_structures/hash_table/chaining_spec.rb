@@ -1,8 +1,8 @@
 require 'rspec'
-require_relative 'hash_table'
+require_relative 'chaining'
 
-RSpec.describe HashTable do
-  let(:hash_table) { HashTable.new }
+RSpec.describe Chaining do
+  let(:hash_table) { Chaining.new }
 
   describe '#set and #get' do
     it 'stores and retrieves a value by key' do
