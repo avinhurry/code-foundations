@@ -8,6 +8,9 @@ module HashTable
 
       # unique marker for deleted slots
       @tombstone = Object.new
+
+      # tracks number of active entries for load factor calculations
+      @count = 0
     end
 
     def set(key, value)
@@ -21,6 +24,10 @@ module HashTable
         # If the slot is empty or marked as deleted, insert the key value pair here
         if slot.nil? || slot.equal?(@tombstone)
           @buckets[i] = [key, value]
+
+          # Add 1 to the count and rehash if threshold reached
+          @count += 1
+          resize_and_rehash if load_factor > 0.7
           return
 
         # If the key already exists in this slot, update the value
@@ -87,6 +94,24 @@ module HashTable
     end
 
     private
+
+    def load_factor
+      @count.to_f / @size
+    end
+
+    def resize_and_rehash
+      # Double the table size and re insert all key value pairs into their new buckets based on new size.
+      old_buckets = @buckets
+      @size *= 2
+      @buckets = Array.new(@size)
+      @count = 0
+
+      old_buckets.each do |slot|
+        next if slot.nil? || slot.equal?(@tombstone)
+        set(slot[0], slot[1])
+      end
+    end
+
 
     def index(key)
       key.hash % @size

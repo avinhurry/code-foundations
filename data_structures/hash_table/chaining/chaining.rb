@@ -5,6 +5,9 @@ module HashTable
 
       # each bucket starts as an empty array for chaining. The default is 16 buckets. Each bucket is empty to handle collisions via chaining
       @buckets = Array.new(@size) { [] }
+
+      # tracks number of active entries for load factor calculations
+      @count = 0
     end
 
     def set(key, value)
@@ -20,6 +23,10 @@ module HashTable
       else
         # otherwise push the key value pair into the bucket
         bucket  << [key, value]
+
+        # add 1 to the count and rehash if threshold reached
+        @count += 1
+        resize_and_rehash if load_factor > 0.75
       end
     end
 
@@ -49,6 +56,26 @@ module HashTable
     end
 
     private
+
+    def load_factor
+      @count.to_f / @size
+    end
+
+    def resize_and_rehash
+      # Double the table size and re insert all key value pairs into their new buckets based on new size.
+    
+      old_buckets = @buckets
+      @size *= 2
+      @buckets = Array.new(@size) { [] }
+      @count = 0
+
+      old_buckets.each do |bucket|
+        bucket.each do |key, value|
+          set(key, value)
+        end
+      end
+    end
+
 
     def index(key)
       # calculate the bucket index for a given key

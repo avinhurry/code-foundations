@@ -55,8 +55,6 @@ RSpec.describe HashTable::OpenAddressing do
     end
   end
   describe 'scale and performance' do
-  # Setting the size to 2000 because there is no automatic resizing, so the hash table is full with the default size of 16.
-  let(:hash_table) { HashTable::OpenAddressing.new(2000) }
     it 'handles a large number of keys without error' do
       1_000.times { |i| hash_table.set("key#{i}", i) }
       expect(hash_table.get('key998')).to eq(998)
