@@ -1,8 +1,8 @@
 require 'rspec'
 require_relative 'open_addressing'
 
-RSpec.describe OpenAddressing do
-  let(:hash_table) { OpenAddressing.new }
+RSpec.describe HashTable::OpenAddressing do
+  let(:hash_table) { HashTable::OpenAddressing.new }
 
   describe '#set and #get' do
     it 'stores and retrieves a value by key' do
@@ -56,7 +56,7 @@ RSpec.describe OpenAddressing do
   end
   describe 'scale and performance' do
   # Setting the size to 2000 because there is no automatic resizing, so the hash table is full with the default size of 16.
-  let(:hash_table) { OpenAddressing.new(2000) }
+  let(:hash_table) { HashTable::OpenAddressing.new(2000) }
     it 'handles a large number of keys without error' do
       1_000.times { |i| hash_table.set("key#{i}", i) }
       expect(hash_table.get('key998')).to eq(998)
