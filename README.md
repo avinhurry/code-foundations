@@ -24,11 +24,9 @@ notes explaining design choices, trade-offs, and behaviour.
 
 Ruby 3.x recommended. RSpec is used for specs.
 
-Run a script:
-`ruby data_structures_and_algorithms/graph_traversal/graph.rb`
-
-Run specs (example):
-`rspec data_structures_and_algorithms/graph_traversal/graph_spec.rb`
+Examples:
+- Run a benchmark: `ruby data_structures_and_algorithms/hash_table/benchmark_hash_tables.rb`
+- Run specs: `rspec data_structures_and_algorithms/graph_traversal/graph_spec.rb`
 
 ## Notes
 
