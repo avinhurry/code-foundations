@@ -1,5 +1,9 @@
 # Code Foundations
 
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Ruby](https://img.shields.io/badge/ruby-3.x-red.svg)
+![Status](https://img.shields.io/badge/purpose-learning-blueviolet)
+
 Hands-on Ruby implementations of core data structures, algorithms, and small projects.
 
 The goal is to *learn by building*: every topic includes real implementations, tests, and
