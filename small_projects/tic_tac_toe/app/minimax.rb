@@ -1,8 +1,8 @@
 require_relative 'decision_tree'
 
 class Minimax
-  def initialize
-    @cache = DecisionTree.new
+  def initialize(cache = DecisionTree.new)
+    @cache = cache
   end
 
   def best_move(board)
