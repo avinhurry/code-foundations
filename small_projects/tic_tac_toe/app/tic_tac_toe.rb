@@ -28,7 +28,7 @@ class TicTacToe
     return true
   end
 
-  def winner?
+  def winner
     WINNING_COMBOS.each do |combo|
       a, b, c = combo
       values = [@board[a], @board[b], @board[c]]
@@ -42,7 +42,7 @@ class TicTacToe
   end
 
   def game_over?
-    winner? || available_moves.empty?
+    !winner.nil? || available_moves.empty?
   end
 
 
