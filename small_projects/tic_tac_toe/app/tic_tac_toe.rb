@@ -1,6 +1,10 @@
 require 'terminal-table'
+require_relative 'decision_tree'
+require_relative 'minimax'
 
 class TicTacToe
+  attr_reader :current_player, :board
+
   def initialize
     @board = Array.new(9, nil)
     @current_player = :X
