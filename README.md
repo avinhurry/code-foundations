@@ -21,7 +21,7 @@ notes explaining design choices, trade-offs, and behaviour.
 - [Interpolation search](data_structures_and_algorithms/implementation_of_basic_search/)
 
 ### Small projects
-- [Tic-tac-toe with minimax AI + caching (WIP)](small_projects/tic_tac_toe/)
+- [Tic-tac-toe with Minimax AI and Red-Black Tree caching](small_projects/tic_tac_toe/)
 - [Table generator utility](small_projects/table_of_results/)
 
 ## Running things
