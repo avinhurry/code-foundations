@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../app/tic_tac_toe'
 RSpec.describe TicTacToe do
   let(:game) { TicTacToe.new }
