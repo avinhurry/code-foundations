@@ -1,3 +1,5 @@
+require 'terminal-table'
+
 class TicTacToe
   def initialize
     @board = Array.new(9, nil)
@@ -17,7 +19,14 @@ class TicTacToe
 
 
   def print_board
-    # TODO: use terminal-table eventually
+    rows = @board.each_slice(3).map.with_index do |row, row_index|
+      row.map.with_index do |cell, col_index|
+        cell.nil? ? (row_index * 3 + col_index).to_s : cell.to_s
+      end
+    end
+
+    table = Terminal::Table.new(rows:)
+    puts table
   end
 
   def make_move(pos)
@@ -25,7 +34,6 @@ class TicTacToe
 
     @board[pos] = @current_player
     @current_player = @current_player == :X ? :O : :X
-    return true
   end
 
   def winner
