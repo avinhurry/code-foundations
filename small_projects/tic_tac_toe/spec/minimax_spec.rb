@@ -23,6 +23,19 @@ RSpec.describe Minimax do
       expect(ai.best_move(board)).to eq(5)
     end
 
+    it 'uses the cache during evaluation' do
+      cache = instance_double('DecisionTree', find: nil)
+      minimax_with_cache = Minimax.new(cache)
+      board = [:X, nil, nil, nil, :X, nil, nil, nil, :O]
+
+      expect(cache).to receive(:find).at_least(:once).and_return(nil)
+      expect(cache).to receive(:insert).at_least(:once)
+
+      minimax_with_cache.best_move(board)
+    end
+
+
+
     it 'chooses the best move in a complex scenario' do
       board = [
         :X, :O, :X,

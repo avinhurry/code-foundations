@@ -28,6 +28,10 @@ class Minimax
   private
 
   def score_board(board, depth, is_maximizing)
+    key = board_key(board)
+    cached = @cache.find(key)
+    return cached unless cached.nil?
+
     winner = evaluate_winner(board)
 
     return 10 if winner == :X
@@ -47,7 +51,7 @@ class Minimax
         best_score = [best_score, score].max
       end
 
-      best_score
+
     else
       best_score = Float::INFINITY
 
@@ -60,9 +64,14 @@ class Minimax
 
         best_score = [best_score, score].min
       end
-
-      best_score
     end
+
+    @cache.insert(key, best_score)
+    best_score
+  end
+
+  def board_key(board)
+    board.map { |cell| cell.nil? ? '-' : cell }.join
   end
 
   def evaluate_winner(board)
