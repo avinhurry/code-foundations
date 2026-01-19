@@ -1,5 +1,5 @@
-require_relative '../../../red_black_trees/app/red_black_tree'
-require_relative '../../../red_black_trees/app/red_black_node'
+require_relative '../../../data_structures_and_algorithms/red_black_trees/app/red_black_tree'
+require_relative '../../../data_structures_and_algorithms/red_black_trees/app/red_black_node'
 
 
 class DecisionTree
