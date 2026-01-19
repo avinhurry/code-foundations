@@ -8,10 +8,10 @@ class DecisionTree
   end
 
   def insert(key, value)
-    # TODO: insert key/value into tree
+    @tree.insert(key, value)
   end
 
   def find(key)
-    # TODO: look up key in tree
+    @tree.find(key)
   end
 end
