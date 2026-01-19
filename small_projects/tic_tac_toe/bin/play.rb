@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require_relative '../app/tic_tac_toe'
 
 game = TicTacToe.new
@@ -13,8 +14,14 @@ until game.game_over?
     game.make_move(move)
     puts "\nAI played at position #{move}:"
   else
-    print "\nChoose a position (0–8): "
-    input = gets.chomp
+    print "\nChoose a position (0–8) or type exit: "
+    input = gets
+    exit if input.nil?
+    input = input.chomp
+    if input.downcase == "exit"
+      puts "Goodbye!"
+      exit
+    end
     unless input =~ /^\d$/ && game.make_move(input.to_i)
       puts "Invalid move. Try again."
       next
