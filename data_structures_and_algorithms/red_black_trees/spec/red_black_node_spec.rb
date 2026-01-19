@@ -1,9 +1,9 @@
 require 'rspec'
-require './app/red_black_node.rb'
+require_relative '../app/red_black_node.rb'
 
 RSpec.describe RedBlackNode do
-  let(:red_node) { described_class.new(value: 10) }
-  let(:black_node) { described_class.new(value: 20, colour: :black) }
+  let(:red_node) { described_class.new(key: 10, value: 'A') }
+  let(:black_node) { described_class.new(key: 20, value: 'B', colour: :black) }
   
   it 'defaults to red' do
     expect(red_node.colour).to eq(:red)
@@ -18,10 +18,10 @@ RSpec.describe RedBlackNode do
   end
 
   describe '#grandparent and #uncle' do
-    let(:grandparent) { described_class.new(value: 50) }
-    let(:parent) { described_class.new(value: 30, parent: grandparent) }
-    let(:uncle) { described_class.new(value: 70, parent: grandparent) }
-    let(:node) { described_class.new(value: 20, parent:)}
+    let(:grandparent) { described_class.new(key: 50, value: 'G') }
+    let(:parent) { described_class.new(key: 30, value: 'P', parent: grandparent) }
+    let(:uncle) { described_class.new(key: 70, value: 'U', parent: grandparent) }
+    let(:node) { described_class.new(key: 20, value: 'N', parent: parent) }
 
     before do
       grandparent.left = parent

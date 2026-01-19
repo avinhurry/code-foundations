@@ -1,7 +1,8 @@
 class RedBlackNode
-  attr_accessor :value, :left, :right, :parent, :colour
+  attr_accessor :key, :value, :left, :right, :parent, :colour
 
-  def initialize(value:, left: nil, right: nil, parent: nil, colour: :red)
+  def initialize(key:, value:, left: nil, right: nil, parent: nil, colour: :red)
+    @key = key
     @value = value
     @left = left
     @right = right

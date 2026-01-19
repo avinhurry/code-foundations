@@ -7,8 +7,8 @@ class RedBlackTree
     @root = nil
   end
 
-  def insert(value)
-    new_node = RedBlackNode.new(value:)
+  def insert(key, value)
+    new_node = RedBlackNode.new(key:, value:)
 
     if root.nil?
       @root = new_node
@@ -20,26 +20,34 @@ class RedBlackTree
     fix_insert(new_node)
   end
 
+  def find(key)
+    current = root
+    while current
+      return current.value if key == current.key
+
+      current = key < current.key ? current.left : current.right
+    end
+    nil
+  end
+
   private
 
   def insert_recursive(current, new_node)
-    if new_node.value < current.value
+    if new_node.key < current.key
       if current.left.nil?
         current.left = new_node
         new_node.parent = current
       else
         insert_recursive(current.left, new_node)
       end
+    elsif current.right.nil?
+      current.right = new_node
+      new_node.parent = current
     else
-      if current.right.nil?
-        current.right = new_node
-        new_node.parent = current
-      else
-        insert_recursive(current.right, new_node)
-      end
+      insert_recursive(current.right, new_node)
     end
-  end 
-  
+  end
+
   def fix_insert(node)
     while node != root && node.parent.colour == :red
       if node.uncle&.colour == :red
@@ -53,7 +61,6 @@ class RedBlackTree
 
         if node == node.parent.right && node.parent == gp.left
           # Case 2: left to right
-          
           rotate_left(node.parent)
           node = node.left
         elsif node == node.parent.left && node.parent == gp.right
@@ -64,7 +71,6 @@ class RedBlackTree
         end
 
         # Case 3: straight line
-        
         node.parent.colour = :black
         gp.colour = :red
 
@@ -102,11 +108,10 @@ class RedBlackTree
     end
 
     # Move pivot below new_root
-    new_root.left = pivot 
+    new_root.left = pivot
     # Update pivots parent to point to new root
     pivot.parent = new_root
   end
-
 
   def rotate_right(pivot)
     # new_root is assigned to the left child of the pivot
@@ -131,7 +136,7 @@ class RedBlackTree
     end
 
     # Move pivot below new_root
-    new_root.right = pivot 
+    new_root.right = pivot
     # Update pivots parent to point to new root
     pivot.parent = new_root
   end
