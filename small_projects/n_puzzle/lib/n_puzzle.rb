@@ -17,4 +17,18 @@ class NPuzzle
   def column(index)
     index % size
   end
+
+  def valid_moves
+    moves = []
+
+    r = row(blank_index)
+    c = column(blank_index)
+
+    moves << :up if r > 0
+    moves << :down if r < size - 1
+    moves << :left if c > 0
+    moves << :right if c < size - 1
+
+    moves
+  end
 end

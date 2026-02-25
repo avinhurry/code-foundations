@@ -36,4 +36,21 @@ RSpec.describe NPuzzle do
       expect(puzzle.column(8)).to eq(2)
     end
   end
+
+  describe "#valid_moves" do
+    it "returns the correct valid moves for a blank tile in the middle" do
+      puzzle = NPuzzle.new([1,2,3,4,0,5,6,7,8])
+      expect(puzzle.valid_moves).to contain_exactly(:up, :down, :left, :right)
+    end
+
+    it "returns the correct valid moves for a blank tile in the top-left corner" do
+      puzzle = NPuzzle.new([0,1,2,3,4,5,6,7,8])
+      expect(puzzle.valid_moves).to contain_exactly(:down, :right)
+    end
+
+    it "returns the correct valid moves for a blank tile in the bottom-right corner" do
+      puzzle = NPuzzle.new([1,2,3,4,5,6,7,8,0])
+      expect(puzzle.valid_moves).to contain_exactly(:up, :left)
+    end
+  end
 end
