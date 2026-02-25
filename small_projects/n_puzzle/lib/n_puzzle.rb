@@ -9,4 +9,12 @@ class NPuzzle
   def blank_index
     state.index(0)
   end
+
+  def row(index)
+    index / size
+  end
+
+  def column(index)
+    index % size
+  end
 end

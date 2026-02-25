@@ -18,4 +18,22 @@ RSpec.describe NPuzzle do
       expect(puzzle.blank_index).to eq(1)
     end
   end
+
+  describe "#row" do
+    it "returns the correct row for index 4 in 3x3 board" do
+      puzzle = NPuzzle.new([1,2,3,4,5,6,7,8,0])
+      expect(puzzle.row(4)).to eq(1)
+      expect(puzzle.row(0)).to eq(0)
+      expect(puzzle.row(8)).to eq(2)
+    end
+  end
+
+  describe "#column" do
+    it "returns the correct column for index 4 in 3x3 board" do
+      puzzle = NPuzzle.new([1,2,3,4,5,6,7,8,0])
+      expect(puzzle.column(4)).to eq(1)
+      expect(puzzle.column(0)).to eq(0)
+      expect(puzzle.column(8)).to eq(2)
+    end
+  end
 end
