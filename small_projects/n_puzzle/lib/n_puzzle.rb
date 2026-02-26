@@ -51,4 +51,12 @@ class NPuzzle
       swap!(i, i + 1)
     end
   end
+
+  def goal_state
+    (1...(size * size)).to_a + [0]
+  end
+
+  def solved?
+    state == goal_state
+  end
 end

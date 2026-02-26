@@ -79,4 +79,23 @@ RSpec.describe NPuzzle do
       expect(puzzle.state).to eq([1,2,3,4,0,5,6,7,8])
     end
   end
+
+  describe "#goal_state" do
+    it "returns the correct goal state for a 3x3 board" do
+      puzzle = NPuzzle.new([1,2,3,4,5,6,7,8,0])
+      expect(puzzle.goal_state).to eq([1,2,3,4,5,6,7,8,0])
+    end
+  end
+
+  describe "#solved?" do
+    it "returns true if the puzzle is solved" do
+      puzzle = NPuzzle.new([1,2,3,4,5,6,7,8,0])
+      expect(puzzle.solved?).to be true
+    end
+
+    it "returns false if the puzzle is not solved" do
+      puzzle = NPuzzle.new([1,2,3,4,0,5,6,7,8])
+      expect(puzzle.solved?).to be false
+    end
+  end
 end
