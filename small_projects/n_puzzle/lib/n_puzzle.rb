@@ -21,8 +21,9 @@ class NPuzzle
   def valid_moves
     moves = []
 
-    r = row(blank_index)
-    c = column(blank_index)
+    i = blank_index
+    r = row(i)
+    c = column(i)
 
     moves << :up if r > 0
     moves << :down if r < size - 1
@@ -30,5 +31,24 @@ class NPuzzle
     moves << :right if c < size - 1
 
     moves
+  end
+
+  def swap!(i, j)
+    state[i], state[j] = state[j], state[i]
+  end
+
+  def apply_move!(move)
+    i = blank_index
+
+    case move
+    when :up
+      swap!(i, i - size)
+    when :down
+      swap!(i, i + size)
+    when :left
+      swap!(i, i - 1)
+    when :right
+      swap!(i, i + 1)
+    end
   end
 end

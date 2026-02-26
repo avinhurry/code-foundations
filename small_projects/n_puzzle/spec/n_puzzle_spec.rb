@@ -53,4 +53,30 @@ RSpec.describe NPuzzle do
       expect(puzzle.valid_moves).to contain_exactly(:up, :left)
     end
   end
+
+  describe "#apply_move!" do
+    it "applies the :up move correctly" do
+      puzzle = NPuzzle.new([1,2,3,4,0,5,6,7,8])
+      puzzle.apply_move!(:up)
+      expect(puzzle.state).to eq([1,0,3,4,2,5,6,7,8])
+    end
+
+    it "applies the :down move correctly" do
+      puzzle = NPuzzle.new([1,0,3,4,2,5,6,7,8])
+      puzzle.apply_move!(:down)
+      expect(puzzle.state).to eq([1,2,3,4,0,5,6,7,8])
+    end
+
+    it "applies the :left move correctly" do
+      puzzle = NPuzzle.new([1,2,3,4,0,5,6,7,8])
+      puzzle.apply_move!(:left)
+      expect(puzzle.state).to eq([1,2,3,0,4,5,6,7,8])
+    end
+
+    it "applies the :right move correctly" do
+      puzzle = NPuzzle.new([1,2,3,0,4,5,6,7,8])
+      puzzle.apply_move!(:right)
+      expect(puzzle.state).to eq([1,2,3,4,0,5,6,7,8])
+    end
+  end
 end
