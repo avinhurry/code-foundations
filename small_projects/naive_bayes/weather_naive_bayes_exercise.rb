@@ -200,38 +200,40 @@ rescue NotImplementedError => e
   puts "  (not implemented yet: #{e.message})"
 end
 
-attempt("TIER 1 — counting") do
-  model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: 1.0).fit(DATA)
-  raw_model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: 0.0).fit(DATA)
+if __FILE__ == $PROGRAM_NAME
+  attempt("TIER 1 — counting") do
+    model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: 1.0).fit(DATA)
+    raw_model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: 0.0).fit(DATA)
 
-  puts "  prior('yes')                       = #{model.prior('yes').round(4)}   TARGET 0.6429"
-  puts "  prior('no')                        = #{model.prior('no').round(4)}   TARGET 0.3571"
-  puts "  likelihood(sunny|no)    [alpha 0]  = #{raw_model.likelihood(:outlook, 'sunny', 'no').round(4)}   TARGET 0.6"
-  puts "  likelihood(cool|yes)    [alpha 0]  = #{raw_model.likelihood(:temp, 'cool', 'yes').round(4)}   TARGET 0.3333"
-  puts "  likelihood(overcast|no) [alpha 1]  = #{model.likelihood(:outlook, 'overcast', 'no').round(4)}   TARGET 0.125"
-end
+    puts "  prior('yes')                       = #{model.prior('yes').round(4)}   TARGET 0.6429"
+    puts "  prior('no')                        = #{model.prior('no').round(4)}   TARGET 0.3571"
+    puts "  likelihood(sunny|no)    [alpha 0]  = #{raw_model.likelihood(:outlook, 'sunny', 'no').round(4)}   TARGET 0.6"
+    puts "  likelihood(cool|yes)    [alpha 0]  = #{raw_model.likelihood(:temp, 'cool', 'yes').round(4)}   TARGET 0.3333"
+    puts "  likelihood(overcast|no) [alpha 1]  = #{model.likelihood(:outlook, 'overcast', 'no').round(4)}   TARGET 0.125"
+  end
 
-attempt("TIER 2 — predict, no smoothing") do
-  raw_model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: 0.0).fit(DATA)
-  test_1_probabilities = raw_model.predict_probability(TEST_1)
-  test_2_probabilities = raw_model.predict_probability(TEST_2)
+  attempt("TIER 2 — predict, no smoothing") do
+    raw_model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: 0.0).fit(DATA)
+    test_1_probabilities = raw_model.predict_probability(TEST_1)
+    test_2_probabilities = raw_model.predict_probability(TEST_2)
 
-  puts "  TEST_1 P(yes)=#{test_1_probabilities['yes'].round(4)}   TARGET 0.2046"
-  puts "  TEST_2 P(yes)=#{test_2_probabilities['yes'].round(4)}   TARGET 1.0  (zero-frequency bug)"
-end
+    puts "  TEST_1 P(yes)=#{test_1_probabilities['yes'].round(4)}   TARGET 0.2046"
+    puts "  TEST_2 P(yes)=#{test_2_probabilities['yes'].round(4)}   TARGET 1.0  (zero-frequency bug)"
+  end
 
-attempt("TIER 3 — predict, smoothing + log-space") do
-  model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: 1.0).fit(DATA)
-  test_1_probabilities = model.predict_probability_log(TEST_1)
-  test_2_probabilities = model.predict_probability_log(TEST_2)
+  attempt("TIER 3 — predict, smoothing + log-space") do
+    model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: 1.0).fit(DATA)
+    test_1_probabilities = model.predict_probability_log(TEST_1)
+    test_2_probabilities = model.predict_probability_log(TEST_2)
 
-  puts "  TEST_1 P(yes)=#{test_1_probabilities['yes'].round(4)} -> #{model.predict(TEST_1)}   TARGET 0.2799 / no"
-  puts "  TEST_2 P(yes)=#{test_2_probabilities['yes'].round(4)} -> #{model.predict(TEST_2)}   TARGET 0.9566 / yes"
-  puts "  log_score(TEST_1, 'yes') = #{model.log_score(TEST_1, 'yes').round(4)}   TARGET -4.9499"
-  puts "  log_score(TEST_1, 'no')  = #{model.log_score(TEST_1, 'no').round(4)}   TARGET -4.0051"
-end
+    puts "  TEST_1 P(yes)=#{test_1_probabilities['yes'].round(4)} -> #{model.predict(TEST_1)}   TARGET 0.2799 / no"
+    puts "  TEST_2 P(yes)=#{test_2_probabilities['yes'].round(4)} -> #{model.predict(TEST_2)}   TARGET 0.9566 / yes"
+    puts "  log_score(TEST_1, 'yes') = #{model.log_score(TEST_1, 'yes').round(4)}   TARGET -4.9499"
+    puts "  log_score(TEST_1, 'no')  = #{model.log_score(TEST_1, 'no').round(4)}   TARGET -4.0051"
+  end
 
-attempt("TIER 3 stretch — evaluation") do
-  puts "  training accuracy = #{training_accuracy(DATA, alpha: 1.0).round(3)}   TARGET 0.929"
-  puts "  leave-one-out acc = #{leave_one_out_accuracy(DATA, alpha: 1.0).round(3)}   TARGET 0.5"
+  attempt("TIER 3 stretch — evaluation") do
+    puts "  training accuracy = #{training_accuracy(DATA, alpha: 1.0).round(3)}   TARGET 0.929"
+    puts "  leave-one-out acc = #{leave_one_out_accuracy(DATA, alpha: 1.0).round(3)}   TARGET 0.5"
+  end
 end
