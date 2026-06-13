@@ -90,12 +90,26 @@ class WeatherNaiveBayes
 
   # prior(klass) * product of likelihood(feature, value, klass) over the sample.
   def score(sample, klass)
-    raise NotImplementedError, "score"
+    # The probability of the class before looking at any features, multiplied by the likelihood of each feature value for that class.
+
+    score = prior(klass)
+    sample.each do |feature, value|
+      score *= likelihood(feature, value, klass)
+    end
+
+    score
   end
 
   # Hash { class => probability }. Normalise class scores so they sum to 1.0.
   def predict_probability(sample)
-    raise NotImplementedError, "predict_probability"
+    # Calculate the score for each class, then normalize the scores to get probabilities.
+
+    scores = classes.each_with_object({}) do |klass, hash|
+      hash[klass] = score(sample, klass)
+    end
+
+    total_score = scores.values.sum
+    scores.transform_values { |score| score / total_score }
   end
 
   # ---- TIER 3: robustness ---------------------------------------------------
