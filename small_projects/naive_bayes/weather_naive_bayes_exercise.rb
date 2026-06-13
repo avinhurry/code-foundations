@@ -109,6 +109,9 @@ class WeatherNaiveBayes
     end
 
     total_score = scores.values.sum
+
+    return scores.transform_values { Float::NAN } if total_score.zero?
+    
     scores.transform_values { |score| score / total_score }
   end
 
