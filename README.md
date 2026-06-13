@@ -23,6 +23,7 @@ notes explaining design choices, trade-offs, and behaviour.
 ### Small projects
 - [Tic-tac-toe with Minimax AI and Red-Black Tree caching](small_projects/tic_tac_toe/)
 - [Table generator utility](small_projects/table_of_results/)
+- [Naive Bayes classifier with smoothing and cross-validation](small_projects/naive_bayes/)
 
 ## Running things
 
