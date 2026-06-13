@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # =============================================================================
 #  EXERCISE SKELETON — NaiveBayes class: "Will I go for a run?"
 #
@@ -63,13 +64,26 @@ class WeatherNaiveBayes
   # ---- TIER 1: counting -----------------------------------------------------
 
   # P(run == klass): fraction of all rows in that class.
+  # In ML, class/klass is the category being predicted ("yes" or "no"), not a Ruby class.
   def prior(klass)
-    raise NotImplementedError, "prior"
+    # Count the number of rows where the label matches the class, then divide by the total number of rows.
+    # This is the baseline probability of the class before looking at any weather features.
+    
+    class_rows = data.count { |row| row[label] == klass }
+    total_rows = data.count
+
+    class_rows.to_f / total_rows
   end
 
   # P(feature == value | run == klass), optionally smoothed by alpha.
   def likelihood(feature, value, klass)
-    raise NotImplementedError, "likelihood"
+    # Find all rows belonging to the class, then count how many of those
+    # rows have the requested feature value. Add alpha to avoid zero probabilities.
+
+    class_rows = data.select { |row| row[label] == klass }
+    matching_rows = class_rows.count { |row| row[feature] == value }
+
+    (matching_rows + alpha).to_f / (class_rows.count + (alpha * value_counts[feature]))
   end
 
   # ---- TIER 2: prediction ---------------------------------------------------
