@@ -116,17 +116,41 @@ class WeatherNaiveBayes
 
   # Like score, but in log-space.
   def log_score(sample, klass)
-    raise NotImplementedError, "log_score"
+    # Use log-space to avoid underflow, where multiplying many tiny probabilities
+    # can eventually cause them to be rounded towards zero.
+    score = Math.log(prior(klass))
+
+    sample.each do |feature, value|
+      score += Math.log(likelihood(feature, value, klass))
+    end
+
+    score
   end
 
   # Hash { class => probability }, calculated from log scores.
   def predict_probability_log(sample)
-    raise NotImplementedError, "predict_probability_log"
+    log_scores = classes.each_with_object({}) do |klass, hash|
+      hash[klass] = log_score(sample, klass)
+    end
+
+    # Subtract the maximum log score before exponentiating to avoid huge or tiny
+    # values. Only the differences between log scores matter, so subtracting the
+    # same value from each score preserves the relative probabilities.
+    
+    max_log_score = log_scores.values.max
+    
+    normalised_scores = log_scores.transform_values do |score|
+      Math.exp(score - max_log_score)
+    end
+
+    total_score = normalised_scores.values.sum
+
+    normalised_scores.transform_values { |score| score / total_score }
   end
 
   # The winning class label.
   def predict(sample)
-    raise NotImplementedError, "predict"
+    predict_probability_log(sample).max_by { |_, probability| probability }.first
   end
 end
 
