@@ -159,14 +159,34 @@ end
 
 # ---- TIER 3 stretch: evaluation ---------------------------------------------
 
+# Training accuracy is high because the model is evaluated on the same data
+# it was trained on. Leave-one-out accuracy is much lower because each row
+# is predicted by a model that has not seen that row during training.
+
 # Predict every row in data and return the fraction predicted correctly.
 def training_accuracy(data, alpha: 1.0)
-  raise NotImplementedError, "training_accuracy"
+  model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: alpha).fit(data)
+  correct_predictions = data.count do |row|
+    sample = FEATURES.to_h { |feature| [feature, row[feature]] }
+
+    model.predict(sample) == row[LABEL]
+  end
+
+  correct_predictions.to_f / data.count
 end
 
 # For each row: train on the other rows, predict the held-out one, return accuracy.
 def leave_one_out_accuracy(data, alpha: 1.0)
-  raise NotImplementedError, "leave_one_out_accuracy"
+  correct_predictions = data.each_with_index.count do |row, index|
+    training_data = data.each_with_index.reject { |_, training_index| training_index == index }.map(&:first)
+    model = WeatherNaiveBayes.new(features: FEATURES, label: LABEL, alpha: alpha).fit(training_data)
+
+    sample = FEATURES.to_h { |feature| [feature, row[feature]] }
+
+    model.predict(sample) == row[LABEL]
+  end
+
+  correct_predictions.to_f / data.count
 end
 
 # =============================================================================

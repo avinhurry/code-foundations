@@ -95,4 +95,18 @@ RSpec.describe WeatherNaiveBayes do
       end
     end
   end
+  
+  describe "Stretch: evaluation" do
+    describe ".training_accuracy" do
+      it "calculates training accuracy" do
+        expect(training_accuracy(DATA, alpha: 1.0)).to be_within(0.001).of(0.929)
+      end
+    end
+
+    describe ".leave_one_out_accuracy" do
+      it "calculates leave-one-out accuracy" do
+        expect(leave_one_out_accuracy(DATA, alpha: 1.0)).to be_within(0.001).of(0.5)
+      end
+    end
+  end
 end
