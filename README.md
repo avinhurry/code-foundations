@@ -20,10 +20,14 @@ notes explaining design choices, trade-offs, and behaviour.
 - [Sorting algorithms + benchmark script](data_structures_and_algorithms/implementation_of_sorting_algorithms/)
 - [Interpolation search](data_structures_and_algorithms/implementation_of_basic_search/)
 
+
+### Machine learning
+
+- [Naive Bayes classifier with smoothing and cross-validation](machine_learning/naive_bayes/)
+
 ### Small projects
 - [Tic-tac-toe with Minimax AI and Red-Black Tree caching](small_projects/tic_tac_toe/)
 - [Table generator utility](small_projects/table_of_results/)
-- [Naive Bayes classifier with smoothing and cross-validation](small_projects/naive_bayes/)
 
 ## Running things
 
