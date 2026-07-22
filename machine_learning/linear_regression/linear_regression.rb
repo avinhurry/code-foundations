@@ -90,17 +90,19 @@ module Metrics
   end
 end
 
-# ---- run it ----------------------------------------------------------------
-ROWS = [[1,1],[2,1],[3,2],[4,2],[5,3],[6,3],[7,4],[8,4],[9,5],[10,5]].map { |r| r.map(&:to_f) }
-YS   = [12, 12, 26, 26, 38, 39, 49, 55, 62, 67].map(&:to_f)
+if __FILE__ == $PROGRAM_NAME
+  # ---- run it ----------------------------------------------------------------
+  ROWS = [[1,1],[2,1],[3,2],[4,2],[5,3],[6,3],[7,4],[8,4],[9,5],[10,5]].map { |r| r.map(&:to_f) }
+  YS   = [12, 12, 26, 26, 38, 39, 49, 55, 62, 67].map(&:to_f)
 
-# Exact solution:
-puts "normal equation [b, w_size, w_beds] = #{LinearRegression.normal_equation(ROWS, YS).map { |c| c.round(3) }}"
-# => [0.5, 2.4, 8.3]
+  # Exact solution:
+  puts "normal equation [b, w_size, w_beds] = #{LinearRegression.normal_equation(ROWS, YS).map { |c| c.round(3) }}"
+  # => [0.5, 2.4, 8.3]
 
-# Gradient descent on SCALED features, then score:
-scaled, = standardize(ROWS)
-model = LinearRegression.new(learning_rate: 0.1, iterations: 5_000).fit(scaled, YS)
-preds = model.predict(scaled)
-puts "RMSE=#{Metrics.rmse(preds, YS).round(4)}  MAE=#{Metrics.mae(preds, YS).round(4)}  R2=#{Metrics.r2(preds, YS).round(4)}"
-# => RMSE=1.3342  MAE=1.24  R2=0.9949
+  # Gradient descent on SCALED features, then score:
+  scaled, = standardize(ROWS)
+  model = LinearRegression.new(learning_rate: 0.1, iterations: 5_000).fit(scaled, YS)
+  preds = model.predict(scaled)
+  puts "RMSE=#{Metrics.rmse(preds, YS).round(4)}  MAE=#{Metrics.mae(preds, YS).round(4)}  R2=#{Metrics.r2(preds, YS).round(4)}"
+  # => RMSE=1.3342  MAE=1.24  R2=0.9949
+end
