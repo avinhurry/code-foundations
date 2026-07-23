@@ -32,3 +32,4 @@ The experiments demonstrate:
 - that feature scaling changes the learned parameters but not the predictions or evaluation metrics
 - how feature scaling allows gradient descent to use larger learning rates and converge in fewer iterations
 - how to evaluate whether an additional feature improves the model by comparing R²
+- why evaluating a model on unseen data gives a more realistic estimate of its performance

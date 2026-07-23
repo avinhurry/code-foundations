@@ -228,3 +228,49 @@ puts "  House size explains most of the variation in price."
 puts "  Adding bedrooms improves R² from 0.9828 to 0.9949."
 puts "  Bedrooms therefore improve the model, but size is by far the more important feature."
 puts "  Measuring the improvement helps determine whether an additional feature is worth including in the model."
+
+
+puts
+puts "Experiment 7: Evaluating the model on unseen data"
+puts "-------------------------------------------------"
+puts
+
+# Split the examples into training and test sets.
+training_rows = rows.first(8)
+training_ys = ys.first(8)
+test_rows = rows.last(2)
+test_ys = ys.last(2)
+
+# Train the model using only the training examples.
+training_coefficients = LinearRegression.normal_equation(training_rows, training_ys)
+training_bias, training_weight1, training_weight2 = training_coefficients
+
+# Evaluate the model on the same examples it was trained on.
+training_predictions = training_rows.map do |row|
+  training_bias + (training_weight1 * row[0]) + (training_weight2 * row[1])
+end
+
+# Evaluate the model on examples it did not see during training.
+test_predictions = test_rows.map do |row|
+  training_bias + (training_weight1 * row[0]) + (training_weight2 * row[1])
+end
+
+training_rmse = Metrics.rmse(training_predictions, training_ys)
+test_rmse = Metrics.rmse(test_predictions, test_ys)
+rmse_gap = test_rmse - training_rmse
+
+puts "Training data:"
+puts "  RMSE: #{training_rmse.round(4)}"
+puts
+puts "Test data:"
+puts "  RMSE: #{test_rmse.round(4)}"
+puts
+puts "Gap:"
+puts "  RMSE: #{rmse_gap.round(4)}"
+puts
+puts "Conclusion:"
+puts "  The model was trained using the first 8 training examples."
+puts "  The training RMSE measures how accurately the model predicts those 8 training examples."
+puts "  The test RMSE measures how accurately the model predicts the final 2 test examples that were not used during training."
+puts "  Because the test RMSE is higher than the training RMSE, the model performs slightly worse on unseen examples than on the examples it was trained on."
+puts "  The test RMSE is therefore a better estimate of how well the model is likely to perform on new data."
