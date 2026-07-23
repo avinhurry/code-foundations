@@ -1,7 +1,7 @@
 require "matrix"
 
 class LinearRegression
-  attr_reader :weights, :bias
+  attr_reader :weights, :bias, :loss_history
 
   # Sets up the model with a learning rate and number of training iterations.
   def initialize(learning_rate: 0.1, iterations: 5_000)
@@ -18,9 +18,11 @@ class LinearRegression
     n_features = rows.first.length
     @weights   = Array.new(n_features, 0.0)
     @bias      = 0.0
+    @loss_history = []
 
     @iterations.times do
       errors = rows.each_index.map { |i| predict_row(rows[i]) - ys[i] }
+      @loss_history << errors.sum { |error| error**2 } / n_samples.to_f
 
       n_features.times do |j|
         grad = (2.0 / n_samples) * rows.each_index.sum { |i| errors[i] * rows[i][j] }

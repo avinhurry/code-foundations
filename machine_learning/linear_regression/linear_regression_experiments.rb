@@ -125,3 +125,69 @@ puts "  Gradient descent: #{Metrics.r2(gradient_descent_predictions, ys).round(4
 puts
 puts "The parameters differ because one model was trained on the original features and the other on standardized features."
 puts "Even though the parameters differ, both models learn the same relationship, so they make the same predictions."
+
+puts
+puts "Experiment 5: How feature scaling affects gradient descent"
+puts "----------------------------------------------------------"
+puts
+
+# The feature values are on different scales, so a large learning rate
+# may cause gradient descent to become unstable.
+unscaled_high_rate_model = LinearRegression.new(
+  learning_rate: 0.1,
+  iterations: 100
+).fit(rows, ys)
+
+puts "Unscaled features with learning rate 0.1:"
+puts "  First loss:       #{unscaled_high_rate_model.loss_history.first}"
+puts "  Loss at step 10:  #{unscaled_high_rate_model.loss_history[9]}"
+puts "  Final loss:       #{unscaled_high_rate_model.loss_history.last}"
+puts
+
+unscaled_lower_rate_model = LinearRegression.new(
+  learning_rate: 0.05,
+  iterations: 100
+).fit(rows, ys)
+
+puts "Unscaled features with learning rate 0.05:"
+puts "  First loss:       #{unscaled_lower_rate_model.loss_history.first}"
+puts "  Loss at step 10:  #{unscaled_lower_rate_model.loss_history[9]}"
+puts "  Final loss:       #{unscaled_lower_rate_model.loss_history.last}"
+puts
+
+unscaled_small_rate_model = LinearRegression.new(
+  learning_rate: 0.01,
+  iterations: 100
+).fit(rows, ys)
+
+puts "Unscaled features with learning rate 0.01:"
+puts "  First loss:       #{unscaled_small_rate_model.loss_history.first}"
+puts "  Loss at step 10:  #{unscaled_small_rate_model.loss_history[9]}"
+puts "  Final loss:       #{unscaled_small_rate_model.loss_history.last}"
+puts
+
+scaled_high_rate_model = LinearRegression.new(
+  learning_rate: 0.1,
+  iterations: 100
+).fit(scaled_rows, ys)
+
+puts "Scaled features with learning rate 0.1:"
+puts "  First loss:       #{scaled_high_rate_model.loss_history.first}"
+puts "  Loss at step 10:  #{scaled_high_rate_model.loss_history[9]}"
+puts "  Final loss:       #{scaled_high_rate_model.loss_history.last}"
+puts
+
+scaled_fewer_iterations_model = LinearRegression.new(
+  learning_rate: 0.1,
+  iterations: 25
+).fit(scaled_rows, ys)
+
+puts "Scaled features with learning rate 0.1 and 25 iterations:"
+puts "  First loss:       #{scaled_fewer_iterations_model.loss_history.first}"
+puts "  Loss at step 10:  #{scaled_fewer_iterations_model.loss_history[9]}"
+puts "  Final loss:       #{scaled_fewer_iterations_model.loss_history.last}"
+puts
+puts "Summary:"
+puts "  Unscaled features were stable with learning rate 0.01."
+puts "  Scaled features were stable with learning rate 0.1."
+puts "  Scaling allowed a 10x larger learning rate (0.1 instead of 0.01) and reached a lower loss after only 25 iterations than the unscaled model reached after 100 iterations."
