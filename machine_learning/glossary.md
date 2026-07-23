@@ -53,3 +53,6 @@ The difference between a model's prediction and the actual target value for a si
 
 ## R² (Coefficient of Determination)
 A regression metric that measures how well a model explains the variation in the target values. An R² of 1 means the model predicts the data perfectly.
+
+## Adjusted R²
+A version of R² that accounts for the number of features in a model. It penalises unnecessary features, making it fairer to compare models with different numbers of features.

@@ -274,3 +274,28 @@ puts "  The training RMSE measures how accurately the model predicts those 8 tra
 puts "  The test RMSE measures how accurately the model predicts the final 2 test examples that were not used during training."
 puts "  Because the test RMSE is higher than the training RMSE, the model performs slightly worse on unseen examples than on the examples it was trained on."
 puts "  The test RMSE is therefore a better estimate of how well the model is likely to perform on new data."
+
+puts
+puts "Experiment 8: Comparing models using adjusted R²"
+puts "------------------------------------------------"
+puts
+
+# Compare the one feature and two feature models while accounting for
+# the different number of features used by each model.
+size_only_adjusted_r2 = Metrics.adjusted_r2(size_only_predictions, ys, 1)
+two_feature_adjusted_r2 = Metrics.adjusted_r2(normal_equation_predictions, ys, 2)
+adjusted_r2_improvement = two_feature_adjusted_r2 - size_only_adjusted_r2
+
+puts "Size only:"
+puts "  Adjusted R²: #{size_only_adjusted_r2.round(4)}"
+puts
+puts "Size and bedrooms:"
+puts "  Adjusted R²: #{two_feature_adjusted_r2.round(4)}"
+puts
+puts "Improvement from adding bedrooms:"
+puts "  Adjusted R²: #{adjusted_r2_improvement.round(4)}"
+puts
+puts "Conclusion:"
+puts "  Adjusted R² accounts for the number of features used by each model."
+puts "  The two feature model still has a higher adjusted R² than the one feature model."
+puts "  Bedrooms therefore improve the model enough to justify including the additional feature."

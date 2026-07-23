@@ -33,3 +33,4 @@ The experiments demonstrate:
 - how feature scaling allows gradient descent to use larger learning rates and converge in fewer iterations
 - how to evaluate whether an additional feature improves the model by comparing R²
 - why evaluating a model on unseen data gives a more realistic estimate of its performance
+- how adjusted R² fairly compares models with different numbers of features
