@@ -191,3 +191,40 @@ puts "Summary:"
 puts "  Unscaled features were stable with learning rate 0.01."
 puts "  Scaled features were stable with learning rate 0.1."
 puts "  Scaling allowed a 10x larger learning rate (0.1 instead of 0.01) and reached a lower loss after only 25 iterations than the unscaled model reached after 100 iterations."
+
+puts
+puts "Experiment 6: Testing whether bedrooms improve the model"
+puts "--------------------------------------------------------"
+puts
+
+# Keep only the size feature from each training example.
+size_only_rows = rows.map { |row| [row[0]] }
+
+# Train a new model using size as the only feature.
+size_only_coefficients = LinearRegression.normal_equation(size_only_rows, ys)
+size_only_bias, size_only_weight = size_only_coefficients
+
+# Use the size only model to predict every training example.
+size_only_predictions = size_only_rows.map do |row|
+  size_only_bias + (size_only_weight * row[0])
+end
+
+# Compare the size only model with the existing size and bedrooms model.
+size_only_r2 = Metrics.r2(size_only_predictions, ys)
+two_feature_r2 = Metrics.r2(normal_equation_predictions, ys)
+r2_improvement = two_feature_r2 - size_only_r2
+
+puts "Size only:"
+puts "  R²: #{size_only_r2.round(4)}"
+puts
+puts "Size and bedrooms:"
+puts "  R²: #{two_feature_r2.round(4)}"
+puts
+puts "Improvement from adding bedrooms:"
+puts "  R²: #{r2_improvement.round(4)}"
+puts
+puts "Conclusion:"
+puts "  House size explains most of the variation in price."
+puts "  Adding bedrooms improves R² from 0.9828 to 0.9949."
+puts "  Bedrooms therefore improve the model, but size is by far the more important feature."
+puts "  Measuring the improvement helps determine whether an additional feature is worth including in the model."
