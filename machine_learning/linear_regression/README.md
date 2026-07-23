@@ -8,6 +8,8 @@ A small Ruby implementation of linear regression from scratch using only Ruby's 
 - Features, weights and bias
 - Gradient descent
 - Normal equation
+- Feature scaling (standardization)
+- Model evaluation (RMSE, MAE and R²)
 
 ## Running the example
 
@@ -27,3 +29,4 @@ The experiments demonstrate:
 - training a linear regression model using gradient descent
 - making predictions using a trained model
 - comparing the coefficients learned by each training algorithm
+- that feature scaling changes the learned parameters but not the predictions or evaluation metrics
