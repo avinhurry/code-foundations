@@ -23,9 +23,11 @@ def print_summary(name, values)
   puts
 end
 
+# Separate the input features from the target prices.
 features = DATA.map(&:first)
 prices = DATA.map(&:last)
 
+# Summarise the dataset before fitting a model.
 puts "Features"
 puts
 
@@ -39,18 +41,54 @@ puts
 
 print_summary("Price", prices)
 
-size_rows = features.map { |row| [row.first] }
+# Standardise all features so gradient descent can train effectively and the weights are comparable.
+scaled_features, = standardize(features)
 
-intercept, slope = LinearRegression.normal_equation(size_rows, prices)
+# Fit the model directly using the normal equation.
+normal_coefficients =
+  LinearRegression.normal_equation(scaled_features, prices)
 
-predictions = size_rows.map do |row|
-  intercept + (slope * row.first)
+normal_bias = normal_coefficients.first
+normal_weights = normal_coefficients.drop(1)
+normal_predictions = scaled_features.map do |row|
+  normal_bias + row.zip(normal_weights).sum { |value, weight| value * weight }
 end
 
-r_squared = Metrics.r2(predictions, prices)
+# Fit the same model iteratively using gradient descent.
+gradient_model =
+  LinearRegression
+    .new(learning_rate: 0.1, iterations: 5_000)
+    .fit(scaled_features, prices)
 
-puts "Single-feature model: price ~ size"
+gradient_predictions = gradient_model.predict(scaled_features)
+
+# Confirm that both training methods produce effectively identical predictions.
+prediction_difference = normal_predictions
+  .zip(gradient_predictions)
+  .map { |normal, gradient| (normal - gradient).abs }
+  .max
+
+# Evaluate both models and report how closely their predictions agree.
+puts "Multiple-feature model: price ~ size + bedrooms + age"
 puts
-puts "  Equation: price = #{intercept.round(2)} + #{slope.round(2)} × size"
-puts "  Each +1 in size increases the predicted price by approximately #{slope.round(2)}."
-puts "  R²: #{r_squared.round(3)}"
+puts "Normal equation"
+puts "  RMSE: #{Metrics.rmse(normal_predictions, prices).round(4)}"
+puts "  R²: #{Metrics.r2(normal_predictions, prices).round(4)}"
+puts
+puts "Gradient descent"
+puts "  RMSE: #{Metrics.rmse(gradient_predictions, prices).round(4)}"
+puts "  R²: #{Metrics.r2(gradient_predictions, prices).round(4)}"
+puts
+puts "Maximum prediction difference: #{format("%.12f", prediction_difference)}"
+puts
+puts "Weight interpretation"
+puts "  Bias: #{normal_bias.round(2)} - predicted price when every feature is average."
+
+# Explain how changing one feature affects the prediction while the others stay the same.
+FEATURE_NAMES.zip(normal_weights).each do |name, weight|
+  direction = weight.negative? ? "decreases" : "increases"
+
+  other_features = FEATURE_NAMES.reject { |feature_name| feature_name == name }.map(&:downcase).join(" and ")
+
+  puts "  #{name}: increasing #{name.downcase} by one standard deviation #{direction} predicted price by #{weight.abs.round(2)}, assuming #{other_features} stay the same."
+end
