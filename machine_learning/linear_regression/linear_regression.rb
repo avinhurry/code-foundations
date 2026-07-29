@@ -4,9 +4,10 @@ class LinearRegression
   attr_reader :weights, :bias, :loss_history
 
   # Sets up the model with a learning rate and number of training iterations.
-  def initialize(learning_rate: 0.1, iterations: 5_000)
+  def initialize(learning_rate: 0.1, iterations: 5_000, lambda: 0.0)
     @learning_rate = learning_rate
     @iterations    = iterations
+    @lambda        = lambda
   end
 
   # rows: the training data
@@ -22,11 +23,14 @@ class LinearRegression
 
     @iterations.times do
       errors = rows.each_index.map { |i| predict_row(rows[i]) - ys[i] }
-      @loss_history << errors.sum { |error| error**2 } / n_samples.to_f
+      prediction_loss = errors.sum { |error| error**2 } / n_samples.to_f
+      ridge_loss = @lambda * @weights.sum { |weight| weight**2 }
+      @loss_history << prediction_loss + ridge_loss
 
       n_features.times do |j|
-        grad = (2.0 / n_samples) * rows.each_index.sum { |i| errors[i] * rows[i][j] }
-        @weights[j] -= @learning_rate * grad
+        error_gradient = (2.0 / n_samples) * rows.each_index.sum { |i| errors[i] * rows[i][j] }
+        ridge_gradient = 2.0 * @lambda * @weights[j]
+        @weights[j] -= @learning_rate * (error_gradient + ridge_gradient)
       end
       @bias -= @learning_rate * (2.0 / n_samples) * errors.sum
     end
@@ -44,10 +48,17 @@ class LinearRegression
   end
 
   # Calculates the weights and bias directly using linear algebra instead of gradient descent.
-  def self.normal_equation(rows, ys)
+  def self.normal_equation(rows, ys, lambda: 0.0)
     x = Matrix[*rows.map { |row| [1.0] + row }]   # prepend the bias column of 1s
     y = Matrix.column_vector(ys)
-    beta = (x.transpose * x).inverse * x.transpose * y
+
+    # Penalise the feature weights, but not the bias.
+    ridge_penalty = Matrix.identity(x.column_count)
+    ridge_penalty[0, 0] = 0.0
+
+    beta = (
+      x.transpose * x + rows.length * lambda * ridge_penalty
+    ).inverse * x.transpose * y
     beta.column(0).to_a
   end
 end

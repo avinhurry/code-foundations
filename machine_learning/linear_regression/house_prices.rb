@@ -142,3 +142,51 @@ puts "Evaluation"
 
 puts "  Test R² is #{r2_gap.round(4)} lower than train R²."
 puts "  The gap is very small, suggesting the model generalises well to unseen houses."
+
+puts
+puts "Ridge regularisation"
+puts
+
+# Compare ordinary linear regression (λ = 0) with progressively stronger ridge regularisation.
+# Lambda controls the strength of the ridge penalty.
+lambdas = [0, 0.1, 1, 10, 100]
+
+best_lambda = nil
+best_rmse = Float::INFINITY
+
+lambdas.each do |lambda|
+  coefficients = LinearRegression.normal_equation(
+    scaled_train_features,
+    train_prices,
+    lambda: lambda
+  )
+
+  bias = coefficients.first
+  weights = coefficients.drop(1)
+
+  predictions = scaled_test_features.map do |row|
+    bias + row.zip(weights).sum { |value, weight| value * weight }
+  end
+
+  weight_norm = Math.sqrt(weights.sum { |weight| weight**2 })
+  ridge_test_rmse = Metrics.rmse(predictions, test_prices)
+
+  puts "λ = #{lambda}"
+  puts "  Weight norm: #{weight_norm.round(4)}"
+  puts "  Test RMSE: #{ridge_test_rmse.round(4)}"
+  puts
+
+  if ridge_test_rmse < best_rmse
+    best_rmse = ridge_test_rmse
+    best_lambda = lambda
+  end
+end
+
+puts "Best λ: #{best_lambda}"
+puts "  Test RMSE: #{best_rmse.round(4)}"
+puts
+puts "Ridge effect"
+puts "  As λ increases, ridge shrinks the feature weights towards zero."
+puts "  For this dataset, regularisation did not improve the test predictions."
+puts "  The unregularised model had the lowest test RMSE."
+puts "  Larger λ values shrank the weights too much and caused the model to underfit."

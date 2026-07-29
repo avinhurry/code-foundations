@@ -57,3 +57,12 @@ A regression metric that measures how well a model explains the variation in the
 
 ## Adjusted R²
 A version of R² that accounts for the number of features in a model. It penalises unnecessary features, making it fairer to compare models with different numbers of features.
+
+## Regularisation
+A technique that discourages a model from learning unnecessarily large weights. This can reduce overfitting and help the model make better predictions on unseen data.
+
+## Ridge Regression
+A type of regularisation that adds a penalty based on the squared size of the model's weights during training. It encourages smaller weights while still fitting the training data.
+
+## Lambda (λ)
+The regularisation strength used by ridge regression. A value of 0 applies no regularisation, while larger values shrink the weights more strongly.
