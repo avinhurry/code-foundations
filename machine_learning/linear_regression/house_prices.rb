@@ -190,3 +190,26 @@ puts "  As λ increases, ridge shrinks the feature weights towards zero."
 puts "  For this dataset, regularisation did not improve the test predictions."
 puts "  The unregularised model had the lowest test RMSE."
 puts "  Larger λ values shrank the weights too much and caused the model to underfit."
+puts
+puts "Residual analysis"
+puts
+
+residuals = test_predictions.zip(test_prices).map do |prediction, actual|
+  {
+    prediction: prediction,
+    actual: actual,
+    residual: actual - prediction
+  }
+end.sort_by { |result| result[:prediction] }
+
+residuals.each do |result|
+  puts "Predicted: #{result[:prediction].round(2)}  " \
+       "Actual: #{result[:actual].round(2)}  " \
+       "Residual: #{result[:residual].round(2)}"
+end
+
+puts
+puts "Residual pattern"
+puts "  The residuals are relatively small and fall on both sides of zero."
+puts "  There is no obvious upward or downward trend as predicted price increases."
+puts "  This suggests the model is making mostly random errors rather than repeating the same type of mistake."

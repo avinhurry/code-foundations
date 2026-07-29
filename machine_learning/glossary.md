@@ -52,6 +52,9 @@ A regression metric measuring the typical prediction error in the original units
 ## Residual
 The difference between a model's prediction and the actual target value for a single training example.
 
+## Residual Analysis
+The process of examining a model's residuals to look for patterns in its prediction errors. Randomly scattered residuals suggest the model is capturing the relationship well, while clear patterns may indicate the model is missing something.
+
 ## R² (Coefficient of Determination)
 A regression metric that measures how well a model explains the variation in the target values. An R² of 1 means the model predicts the data perfectly.
 
