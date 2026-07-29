@@ -10,6 +10,9 @@ A small Ruby implementation of linear regression from scratch using only Ruby's 
 - Normal equation
 - Feature scaling (standardization)
 - Model evaluation (RMSE, MAE and R²)
+- Train/test split
+- Ridge regularisation (L2 regularisation)
+- Residual analysis
 
 ## Running the example
 
