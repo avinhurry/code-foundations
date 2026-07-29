@@ -22,7 +22,8 @@ The collection of features and target values used to train a model.
 A learned value that determines how much influence a feature has on a prediction.
 
 ## Coefficient
-Another name for a weight in linear models such as linear regression.
+Another name for a weight in linear models such as linear regression. In simple linear regression, the coefficient is 
+also called the slope because it describes how much the prediction changes when the feature increases by one unit.
 
 ## Bias
 A learned constant added to every prediction, also known as the intercept.

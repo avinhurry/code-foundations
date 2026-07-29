@@ -1,4 +1,5 @@
 require_relative "statistics"
+require_relative "linear_regression"
 
 DATA = [
   [[6.6, 3, 10], 62.4], [[9.1, 2, 19], 58.1], [[8.0, 5, 15], 83.3], [[3.0, 1, 9], 29.5],
@@ -37,3 +38,19 @@ puts "Target"
 puts
 
 print_summary("Price", prices)
+
+size_rows = features.map { |row| [row.first] }
+
+intercept, slope = LinearRegression.normal_equation(size_rows, prices)
+
+predictions = size_rows.map do |row|
+  intercept + (slope * row.first)
+end
+
+r_squared = Metrics.r2(predictions, prices)
+
+puts "Single-feature model: price ~ size"
+puts
+puts "  Equation: price = #{intercept.round(2)} + #{slope.round(2)} × size"
+puts "  Each +1 in size increases the predicted price by approximately #{slope.round(2)}."
+puts "  R²: #{r_squared.round(3)}"
