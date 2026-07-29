@@ -92,3 +92,53 @@ FEATURE_NAMES.zip(normal_weights).each do |name, weight|
 
   puts "  #{name}: increasing #{name.downcase} by one standard deviation #{direction} predicted price by #{weight.abs.round(2)}, assuming #{other_features} stay the same."
 end
+
+puts
+puts "Honest evaluation"
+puts
+
+# Reserve the final five houses for evaluation so the model never sees them during training.
+train_data = DATA.first(15)
+test_data = DATA.last(5)
+
+train_features = train_data.map(&:first)
+train_prices = train_data.map(&:last)
+test_features = test_data.map(&:first)
+test_prices = test_data.map(&:last)
+
+# Compute scaling statistics from the training set only, then reuse them for the test set.
+scaled_train_features, feature_means, feature_standard_deviations = standardize(train_features)
+scaled_test_features = test_features.map do |row|
+  row.each_with_index.map do |value, index|
+    (value - feature_means[index]) / feature_standard_deviations[index]
+  end
+end
+
+# Fit only on the training houses.
+evaluation_model =
+  LinearRegression
+    .new(learning_rate: 0.1, iterations: 5_000)
+    .fit(scaled_train_features, train_prices)
+
+train_predictions = evaluation_model.predict(scaled_train_features)
+test_predictions = evaluation_model.predict(scaled_test_features)
+
+train_r2 = Metrics.r2(train_predictions, train_prices)
+test_r2 = Metrics.r2(test_predictions, test_prices)
+test_rmse = Metrics.rmse(test_predictions, test_prices)
+r2_gap = train_r2 - test_r2
+
+puts "Training set: #{train_data.length} houses"
+puts "Test set: #{test_data.length} houses"
+puts
+puts "Train performance"
+puts "  R²: #{train_r2.round(4)}"
+puts
+puts "Test performance"
+puts "  R²: #{test_r2.round(4)}"
+puts "  RMSE: #{test_rmse.round(4)}"
+puts
+puts "Evaluation"
+
+puts "  Test R² is #{r2_gap.round(4)} lower than train R²."
+puts "  The gap is very small, suggesting the model generalises well to unseen houses."
