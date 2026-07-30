@@ -38,6 +38,12 @@ The experiments demonstrate:
 - why evaluating a model on unseen data gives a more realistic estimate of its performance
 - how adjusted R² fairly compares models with different numbers of features
 
+## Running the tests
+
+```sh
+rspec machine_learning/linear_regression/linear_regression_spec.rb
+```
+
 ## Running the house price model
 
 ```sh
@@ -48,12 +54,15 @@ ruby machine_learning/linear_regression/house_prices.rb
 
 This example uses linear regression to predict house prices from house size, number of bedrooms and age. The input features are standardised before training.
 
-Several ridge regularisation strengths were evaluated using the same train/test split. The unregularised model (`λ = 0`) achieved the lowest test RMSE, giving the best performance on this dataset.
+Several ridge regularisation strengths were evaluated using the same train/test split. As λ increased from 0 to 100, the feature-weight norm decreased from approximately 17.41 to 0.19. The unregularised model (`λ = 0`) achieved the lowest test RMSE, giving the best performance on this dataset.
 
 ### Test performance
 
+- Test R²: approximately 0.97
 - Test RMSE: approximately 1.98
 - Selected λ: 0
+
+The normal equation and gradient descent produced identical predictions to the displayed precision.
 
 The train and test R² scores were very similar, suggesting the model generalised well to unseen houses.
 
