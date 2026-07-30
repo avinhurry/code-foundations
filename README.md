@@ -24,6 +24,7 @@ notes explaining design choices, trade-offs, and behaviour.
 ### Machine learning
 
 - [Naive Bayes classifier with smoothing and cross-validation](machine_learning/naive_bayes/)
+- [Linear regression with gradient descent, ridge regularisation and evaluation](machine_learning/linear_regression/)
 
 ### Small projects
 - [Tic-tac-toe with Minimax AI and Red-Black Tree caching](small_projects/tic_tac_toe/)
