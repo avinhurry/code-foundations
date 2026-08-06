@@ -1,0 +1,96 @@
+# frozen_string_literal: true
+
+require_relative "../statistics"
+
+# [tenure, monthly_charge, support_tickets], churned
+DATA = [
+  [[39, 54, 1], 1],
+  [[5, 67, 2], 1],
+  [[9, 79, 3], 0],
+  [[12, 97, 5], 1],
+  [[9, 43, 2], 0],
+  [[38, 72, 5], 0],
+  [[41, 76, 5], 0],
+  [[28, 43, 1], 0],
+  [[2, 20, 3], 0],
+  [[5, 98, 6], 1],
+  [[16, 44, 6], 0],
+  [[21, 45, 5], 0],
+  [[30, 91, 0], 0],
+  [[23, 67, 5], 0],
+  [[13, 58, 1], 0],
+  [[8, 82, 6], 1],
+  [[33, 22, 7], 0],
+  [[35, 77, 3], 0],
+  [[2, 50, 7], 1],
+  [[6, 27, 6], 1],
+  [[22, 73, 2], 0],
+  [[19, 95, 7], 1],
+  [[42, 37, 3], 0],
+  [[25, 70, 0], 0]
+].freeze
+
+FEATURE_NAMES = ["Tenure", "Monthly charge", "Support tickets"].freeze
+
+# Input features used to predict whether each customer churned.
+ROWS = DATA.map(&:first).freeze
+
+# Target labels: 1 means the customer churned, 0 means they stayed.
+YS = DATA.map(&:last).freeze
+
+def print_stage(number, title)
+  heading = "Stage #{number}: #{title}"
+  line = "=" * heading.length
+
+  puts
+  puts line
+  puts heading
+  puts line
+  puts
+end
+
+# Returns the feature rows whose target label matches the supplied class.
+def rows_for_class(label)
+  DATA.filter_map { |row, churned| row if churned == label }
+end
+
+# Calculates the mean of each feature column for the supplied customer rows.
+def feature_means(rows)
+  FEATURE_NAMES.each_index.map do |feature_index|
+    Statistics.mean(rows.map { |row| row[feature_index] })
+  end
+end
+
+churners = rows_for_class(1)
+stayers = rows_for_class(0)
+
+print_stage(1, "Explore the data")
+puts "Customer churn dataset"
+puts
+puts "Customers: #{DATA.length}"
+puts "Churners: #{churners.length}"
+puts "Stayers: #{stayers.length}"
+puts "Churn rate: #{(Statistics.mean(YS) * 100).round(1)}%"
+puts
+puts "Feature means"
+puts
+
+churner_means = feature_means(churners)
+stayer_means = feature_means(stayers)
+
+FEATURE_NAMES.each_index do |feature_index|
+  puts FEATURE_NAMES[feature_index]
+  puts "  Churners: #{churner_means[feature_index].round(2)}"
+  puts "  Stayers: #{stayer_means[feature_index].round(2)}"
+  puts
+end
+
+puts "Initial observations"
+puts
+puts "- Churners had lower average tenure than stayers (12.0 vs 24.19), so lower tenure appears associated with churn."
+puts "- Churners had a higher average monthly charge than stayers (71.25 vs 57.31), so higher monthly charges appear associated with churn."
+puts "- Churners had more support tickets on average than stayers (5.0 vs 3.19), so more support tickets appear associated with churn."
+puts
+puts "These comparisons show patterns in this dataset only. They do not prove that any feature causes churn."
+puts
+puts "Stage 1 complete."
