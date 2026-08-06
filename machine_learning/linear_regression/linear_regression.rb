@@ -1,4 +1,5 @@
 require "matrix"
+require_relative "../statistics"
 
 class LinearRegression
   attr_reader :weights, :bias, :loss_history
@@ -67,14 +68,7 @@ end
 
 # Scales the input data to help gradient descent train more effectively.
 def standardize(rows)
-  n_features = rows.first.length
-  means = Array.new(n_features) { |j| rows.sum { |r| r[j] } / rows.length.to_f }
-  stds  = Array.new(n_features) do |j|
-    var = rows.sum { |r| (r[j] - means[j])**2 } / rows.length.to_f
-    Math.sqrt(var)
-  end
-  scaled = rows.map { |r| r.each_index.map { |j| (r[j] - means[j]) / stds[j] } }
-  [scaled, means, stds]
+  Statistics.standardize(rows)
 end
 
 # ---- metrics ---------------------------------------------------------------

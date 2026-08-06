@@ -1,4 +1,4 @@
-require_relative "statistics"
+require_relative "../statistics"
 require_relative "linear_regression"
 
 DATA = [
