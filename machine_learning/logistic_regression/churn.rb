@@ -38,13 +38,12 @@ ROWS = DATA.map(&:first).freeze
 # Target labels: 1 means the customer churned, 0 means they stayed.
 YS = DATA.map(&:last).freeze
 
-def print_stage(number, title)
-  heading = "Stage #{number}: #{title}"
-  line = "=" * heading.length
+def print_section(title)
+  line = "=" * title.length
 
   puts
   puts line
-  puts heading
+  puts title
   puts line
   puts
 end
@@ -64,7 +63,7 @@ end
 churners = rows_for_class(1)
 stayers = rows_for_class(0)
 
-print_stage(1, "Explore the data")
+print_section("Explore the data")
 puts "Customer churn dataset"
 puts
 puts "Customers: #{DATA.length}"
@@ -93,4 +92,4 @@ puts "- Churners had more support tickets on average than stayers (5.0 vs 3.19),
 puts
 puts "These comparisons show patterns in this dataset only. They do not prove that any feature causes churn."
 puts
-puts "Stage 1 complete."
+puts "Exploration complete."
