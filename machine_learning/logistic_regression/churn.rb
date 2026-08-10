@@ -93,3 +93,18 @@ puts
 puts "These comparisons show patterns in this dataset only. They do not prove that any feature causes churn."
 puts
 puts "Exploration complete."
+
+# Dumb baseline: predict that all customers will do what the majority do
+always_stay_predictions = Array.new(YS.length, 0)
+correct_predictions = always_stay_predictions.zip(YS).count do |prediction, actual|
+  prediction == actual
+end
+baseline_accuracy = correct_predictions / YS.length.to_f
+
+print_section("Baseline model")
+puts 'Strategy: always predict "stay" (0)'
+puts
+puts "Correct predictions: #{correct_predictions}/#{YS.length}"
+puts "Accuracy: #{(baseline_accuracy * 100).round(1)}%"
+puts
+puts "This is the baseline a real model should beat."
