@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../statistics"
+require_relative "../classification_metrics"
 require_relative "logistic_regression"
 
 # [tenure, monthly_charge, support_tickets], churned
@@ -100,7 +101,7 @@ always_stay_predictions = Array.new(YS.length, 0)
 correct_predictions = always_stay_predictions.zip(YS).count do |prediction, actual|
   prediction == actual
 end
-baseline_accuracy = correct_predictions / YS.length.to_f
+baseline_accuracy = ClassificationMetrics.accuracy(always_stay_predictions, YS)
 
 print_section("Baseline model")
 puts 'Strategy: always predict "stay" (0)'
@@ -121,7 +122,7 @@ predictions = model.predict(standardized_rows)
 correct_predictions = predictions.zip(YS).count do |prediction, actual|
   prediction == actual
 end
-accuracy = correct_predictions / YS.length.to_f
+accuracy = ClassificationMetrics.accuracy(predictions, YS)
 loss = model.log_loss(probabilities, YS)
 
 print_section("Logistic regression model")
