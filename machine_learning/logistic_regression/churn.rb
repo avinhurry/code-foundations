@@ -142,3 +142,21 @@ puts "Correct predictions: #{correct_predictions}/#{YS.length}"
 puts "Accuracy: #{(accuracy * 100).round(1)}%"
 # Log loss measures the quality of the predicted probabilities; lower is better.
 puts "Log loss: #{loss.round(3)}"
+
+# Evaluate how well the model identifies churners beyond overall accuracy.
+confusion = ClassificationMetrics.confusion(predictions, YS)
+precision = ClassificationMetrics.precision(predictions, YS)
+recall = ClassificationMetrics.recall(predictions, YS)
+f1 = ClassificationMetrics.f1(predictions, YS)
+auc = ClassificationMetrics.auc(probabilities, YS)
+
+print_section("Classification metrics")
+puts "True positives: #{confusion[:true_positives]}"
+puts "False positives: #{confusion[:false_positives]}"
+puts "True negatives: #{confusion[:true_negatives]}"
+puts "False negatives: #{confusion[:false_negatives]}"
+puts
+puts "Precision: #{precision.round(3)}"
+puts "Recall: #{recall.round(3)}"
+puts "F1 score: #{f1.round(3)}"
+puts "AUC: #{auc.round(3)}"

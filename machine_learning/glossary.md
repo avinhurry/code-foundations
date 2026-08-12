@@ -85,5 +85,26 @@ A classification loss that measures how good a model's predicted probabilities a
 ## Classification Threshold
 The cutoff used to turn a predicted probability into a class. For example, with a threshold of 0.5, probabilities of 0.5 or higher become 1.
 
+## Decision Boundary
+The point or boundary where the model switches from predicting one class to the other. With a 0.5 threshold, this is where the predicted probability is exactly 0.5.
+
 ## Positive Class / Negative Class
 In binary classification, the positive class is the outcome represented by 1 that the model is trying to detect. The negative class is the opposite outcome, represented by 0.
+
+## Accuracy
+The proportion of predictions the model got correct overall.
+
+## Confusion Matrix
+A breakdown of binary classification predictions into true positives, false positives, true negatives, and false negatives.
+
+## Precision
+Of everything the model predicted as positive, the proportion that was actually positive.
+
+## Recall
+Of everything that was actually positive, the proportion the model correctly identified.
+
+## F1 Score
+A score that combines precision and recall, with a low value in either one pulling the F1 score down.
+
+## AUC (Area Under the ROC Curve)
+A classification metric that measures how well the model ranks positive cases above negative cases. A value of 0.5 is roughly equivalent to random ranking, while 1.0 is perfect.
