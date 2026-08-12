@@ -1,4 +1,4 @@
-module Metrics
+module RegressionMetrics
   module_function
 
   # Calculates the Mean Squared Error.

@@ -114,14 +114,14 @@ end
 # Compare the error of both models using RMSE.
 puts
 puts "RMSE"
-puts "  Normal equation: #{Metrics.rmse(normal_equation_predictions, ys).round(4)}"
-puts "  Gradient descent: #{Metrics.rmse(gradient_descent_predictions, ys).round(4)}"
+puts "  Normal equation: #{RegressionMetrics.rmse(normal_equation_predictions, ys).round(4)}"
+puts "  Gradient descent: #{RegressionMetrics.rmse(gradient_descent_predictions, ys).round(4)}"
 
 # Compare how well each model fits the data using R².
 puts
 puts "R²"
-puts "  Normal equation: #{Metrics.r2(normal_equation_predictions, ys).round(4)}"
-puts "  Gradient descent: #{Metrics.r2(gradient_descent_predictions, ys).round(4)}"
+puts "  Normal equation: #{RegressionMetrics.r2(normal_equation_predictions, ys).round(4)}"
+puts "  Gradient descent: #{RegressionMetrics.r2(gradient_descent_predictions, ys).round(4)}"
 puts
 puts "The parameters differ because one model was trained on the original features and the other on standardized features."
 puts "Even though the parameters differ, both models learn the same relationship, so they make the same predictions."
@@ -210,8 +210,8 @@ size_only_predictions = size_only_rows.map do |row|
 end
 
 # Compare the size only model with the existing size and bedrooms model.
-size_only_r2 = Metrics.r2(size_only_predictions, ys)
-two_feature_r2 = Metrics.r2(normal_equation_predictions, ys)
+size_only_r2 = RegressionMetrics.r2(size_only_predictions, ys)
+two_feature_r2 = RegressionMetrics.r2(normal_equation_predictions, ys)
 r2_improvement = two_feature_r2 - size_only_r2
 
 puts "Size only:"
@@ -255,8 +255,8 @@ test_predictions = test_rows.map do |row|
   training_bias + (training_weight1 * row[0]) + (training_weight2 * row[1])
 end
 
-training_rmse = Metrics.rmse(training_predictions, training_ys)
-test_rmse = Metrics.rmse(test_predictions, test_ys)
+training_rmse = RegressionMetrics.rmse(training_predictions, training_ys)
+test_rmse = RegressionMetrics.rmse(test_predictions, test_ys)
 rmse_gap = test_rmse - training_rmse
 
 puts "Training data:"
@@ -282,8 +282,8 @@ puts
 
 # Compare the one feature and two feature models while accounting for
 # the different number of features used by each model.
-size_only_adjusted_r2 = Metrics.adjusted_r2(size_only_predictions, ys, 1)
-two_feature_adjusted_r2 = Metrics.adjusted_r2(normal_equation_predictions, ys, 2)
+size_only_adjusted_r2 = RegressionMetrics.adjusted_r2(size_only_predictions, ys, 1)
+two_feature_adjusted_r2 = RegressionMetrics.adjusted_r2(normal_equation_predictions, ys, 2)
 adjusted_r2_improvement = two_feature_adjusted_r2 - size_only_adjusted_r2
 
 puts "Size only:"

@@ -25,7 +25,7 @@ RSpec.describe LinearRegression do
 
         predictions = model.predict(scaled_rows)
 
-        expect(Metrics.r2(predictions, targets)).to be > 0.999
+        expect(RegressionMetrics.r2(predictions, targets)).to be > 0.999
       end
     end
   end

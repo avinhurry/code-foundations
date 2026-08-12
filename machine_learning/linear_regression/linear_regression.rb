@@ -85,6 +85,6 @@ if __FILE__ == $PROGRAM_NAME
   scaled, = standardize(ROWS)
   model = LinearRegression.new(learning_rate: 0.1, iterations: 5_000).fit(scaled, YS)
   preds = model.predict(scaled)
-  puts "RMSE=#{Metrics.rmse(preds, YS).round(4)}  MAE=#{Metrics.mae(preds, YS).round(4)}  R2=#{Metrics.r2(preds, YS).round(4)}"
+  puts "RMSE=#{RegressionMetrics.rmse(preds, YS).round(4)}  MAE=#{RegressionMetrics.mae(preds, YS).round(4)}  R2=#{RegressionMetrics.r2(preds, YS).round(4)}"
   # => RMSE=1.3342  MAE=1.24  R2=0.9949
 end

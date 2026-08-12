@@ -72,12 +72,12 @@ prediction_difference = normal_predictions
 puts "Multiple-feature model: price ~ size + bedrooms + age"
 puts
 puts "Normal equation"
-puts "  RMSE: #{Metrics.rmse(normal_predictions, prices).round(4)}"
-puts "  R²: #{Metrics.r2(normal_predictions, prices).round(4)}"
+puts "  RMSE: #{RegressionMetrics.rmse(normal_predictions, prices).round(4)}"
+puts "  R²: #{RegressionMetrics.r2(normal_predictions, prices).round(4)}"
 puts
 puts "Gradient descent"
-puts "  RMSE: #{Metrics.rmse(gradient_predictions, prices).round(4)}"
-puts "  R²: #{Metrics.r2(gradient_predictions, prices).round(4)}"
+puts "  RMSE: #{RegressionMetrics.rmse(gradient_predictions, prices).round(4)}"
+puts "  R²: #{RegressionMetrics.r2(gradient_predictions, prices).round(4)}"
 puts
 puts "Maximum prediction difference: #{format("%.12f", prediction_difference)}"
 puts
@@ -123,9 +123,9 @@ evaluation_model =
 train_predictions = evaluation_model.predict(scaled_train_features)
 test_predictions = evaluation_model.predict(scaled_test_features)
 
-train_r2 = Metrics.r2(train_predictions, train_prices)
-test_r2 = Metrics.r2(test_predictions, test_prices)
-test_rmse = Metrics.rmse(test_predictions, test_prices)
+train_r2 = RegressionMetrics.r2(train_predictions, train_prices)
+test_r2 = RegressionMetrics.r2(test_predictions, test_prices)
+test_rmse = RegressionMetrics.rmse(test_predictions, test_prices)
 r2_gap = train_r2 - test_r2
 
 puts "Training set: #{train_data.length} houses"
@@ -169,7 +169,7 @@ lambdas.each do |lambda|
   end
 
   weight_norm = Math.sqrt(weights.sum { |weight| weight**2 })
-  ridge_test_rmse = Metrics.rmse(predictions, test_prices)
+  ridge_test_rmse = RegressionMetrics.rmse(predictions, test_prices)
 
   puts "λ = #{lambda}"
   puts "  Weight norm: #{weight_norm.round(4)}"

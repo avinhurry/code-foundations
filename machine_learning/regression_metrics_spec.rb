@@ -1,7 +1,7 @@
 require "rspec"
 require_relative "regression_metrics"
 
-RSpec.describe Metrics do
+RSpec.describe RegressionMetrics do
   describe ".r2" do
     it "returns 1.0 for perfect predictions" do
       ys = [2.0, 4.0, 6.0, 8.0]
