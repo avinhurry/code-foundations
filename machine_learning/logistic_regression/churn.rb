@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../statistics"
+require_relative "logistic_regression"
 
 # [tenure, monthly_charge, support_tickets], churned
 DATA = [
@@ -107,4 +108,36 @@ puts
 puts "Correct predictions: #{correct_predictions}/#{YS.length}"
 puts "Accuracy: #{(baseline_accuracy * 100).round(1)}%"
 puts
+
 puts "This is the baseline a real model should beat."
+
+# Standardize the features before training; the mean and standard deviation are not needed here.
+standardized_rows, _means, _standard_deviations = standardize(ROWS)
+model = LogisticRegression.new
+model.fit(standardized_rows, YS)
+
+probabilities = model.predict_proba(standardized_rows)
+predictions = model.predict(standardized_rows)
+correct_predictions = predictions.zip(YS).count do |prediction, actual|
+  prediction == actual
+end
+accuracy = correct_predictions / YS.length.to_f
+loss = model.log_loss(probabilities, YS)
+
+print_section("Logistic regression model")
+puts "Learned weights"
+puts
+
+# Show whether each feature pushes the prediction toward or away from churn.
+FEATURE_NAMES.each_index do |feature_index|
+  weight = model.weights[feature_index]
+  direction = weight.positive? ? "positive" : "negative"
+
+  puts "#{FEATURE_NAMES[feature_index]}: #{weight.round(3)} (#{direction})"
+end
+
+puts
+puts "Correct predictions: #{correct_predictions}/#{YS.length}"
+puts "Accuracy: #{(accuracy * 100).round(1)}%"
+# Log loss measures the quality of the predicted probabilities; lower is better.
+puts "Log loss: #{loss.round(3)}"

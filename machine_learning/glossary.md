@@ -69,3 +69,21 @@ A type of regularisation that adds a penalty based on the squared size of the mo
 
 ## Lambda (λ)
 The regularisation strength used by ridge regression. A value of 0 applies no regularisation, while larger values shrink the weights more strongly.
+
+## Logistic Regression
+A classification model that predicts the probability of one of two possible outcomes.
+
+## Binary Classification
+A prediction problem with two possible classes, such as churned/stayed or fraud/not fraud.
+
+## Sigmoid
+A function that converts a model's raw score into a value between 0 and 1 that can be treated as a probability.
+
+## Log Loss
+A classification loss that measures how good a model's predicted probabilities are. It penalises confident wrong predictions more heavily.
+
+## Classification Threshold
+The cutoff used to turn a predicted probability into a class. For example, with a threshold of 0.5, probabilities of 0.5 or higher become 1.
+
+## Positive Class / Negative Class
+In binary classification, the positive class is the outcome represented by 1 that the model is trying to detect. The negative class is the opposite outcome, represented by 0.
