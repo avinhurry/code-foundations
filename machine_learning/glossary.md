@@ -85,6 +85,9 @@ A classification loss that measures how good a model's predicted probabilities a
 ## Classification Threshold
 The cutoff used to turn a predicted probability into a class. For example, with a threshold of 0.5, probabilities of 0.5 or higher become 1.
 
+## Threshold Tuning
+Trying different classification thresholds while keeping the model's predicted probabilities the same. Changing the threshold only changes which predictions become the positive class, which can affect precision and recall.
+
 ## Decision Boundary
 The point or boundary where the model switches from predicting one class to the other. With a 0.5 threshold, this is where the predicted probability is exactly 0.5.
 

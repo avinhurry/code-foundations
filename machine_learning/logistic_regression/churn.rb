@@ -160,3 +160,27 @@ puts "Precision: #{precision.round(3)}"
 puts "Recall: #{recall.round(3)}"
 puts "F1 score: #{f1.round(3)}"
 puts "AUC: #{auc.round(3)}"
+
+# The model's probabilities stay the same; changing the threshold only changes
+# which customers are classified as churners.
+print_section("Threshold tuning")
+
+(2..8).each do |step|
+  threshold = step / 10.0
+
+  threshold_predictions = probabilities.map do |probability|
+    probability >= threshold ? 1 : 0
+  end
+
+  precision = ClassificationMetrics.precision(threshold_predictions, YS)
+  recall = ClassificationMetrics.recall(threshold_predictions, YS)
+  churners_caught = threshold_predictions.zip(YS).count do |prediction, actual|
+    prediction == 1 && actual == 1
+  end
+
+  puts "Threshold: #{threshold}"
+  puts "  Precision: #{precision.round(3)}"
+  puts "  Recall: #{recall.round(3)}"
+  puts "  Churners caught: #{churners_caught}/#{churners.length}"
+  puts
+end
