@@ -70,6 +70,9 @@ A type of regularisation that adds a penalty based on the squared size of the mo
 ## Lambda (λ)
 The regularisation strength used by ridge regression. A value of 0 applies no regularisation, while larger values shrink the weights more strongly.
 
+## Weight Norm
+A single number that represents the overall size of a model's weights. It can be used to see how strongly regularisation has shrunk the weights.
+
 ## Logistic Regression
 A classification model that predicts the probability of one of two possible outcomes.
 
