@@ -3,11 +3,12 @@ require_relative "../statistics"
 class LogisticRegression
   attr_reader :weights, :bias, :loss_history
 
-  # Sets up the model with a learning rate, number of training iterations and prediction threshold.
-  def initialize(learning_rate: 0.1, iterations: 5_000, threshold: 0.5)
+  # Sets up the model with a learning rate, number of training iterations, prediction threshold and L2 strength.
+  def initialize(learning_rate: 0.1, iterations: 5_000, threshold: 0.5, lambda: 0.0)
     @learning_rate = learning_rate
     @iterations    = iterations
     @threshold     = threshold
+    @lambda        = lambda
   end
 
   # rows: the training data
@@ -32,6 +33,9 @@ class LogisticRegression
       n_features.times do |j|
         # Work out how much this feature's weight contributed to the errors.
         gradient = rows.each_index.sum { |i| errors[i] * rows[i][j] } / n_samples.to_f
+
+        # L2 regularization adds a penalty for large weights. The bias is not penalized.
+        gradient += @lambda * @weights[j]
         @weights[j] = @weights[j] - (@learning_rate * gradient)
       end
 
@@ -62,7 +66,7 @@ class LogisticRegression
     predict_proba(rows).map { |probability| probability >= @threshold ? 1 : 0 }
   end
 
-    # Measures how wrong the predicted probabilities are compared with the actual 0/1 labels.
+  # Measures how wrong the predicted probabilities are compared with the actual 0/1 labels.
   def log_loss(probabilities, ys)
     epsilon = 1e-15
 

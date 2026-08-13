@@ -184,3 +184,22 @@ print_section("Threshold tuning")
   puts "  Churners caught: #{churners_caught}/#{churners.length}"
   puts
 end
+
+print_section("L2 regularization")
+
+[0, 0.01, 0.1, 1].each do |lambda|
+  regularized_model = LogisticRegression.new(lambda: lambda)
+  regularized_model.fit(standardized_rows, YS)
+
+  regularized_probabilities = regularized_model.predict_proba(standardized_rows)
+  weight_norm = Math.sqrt(regularized_model.weights.sum { |weight| weight**2 })
+  auc = ClassificationMetrics.auc(regularized_probabilities, YS)
+
+  puts "Lambda: #{lambda}"
+  puts "  Weight norm: #{weight_norm.round(3)}"
+  puts "  AUC: #{auc.round(3)}"
+  puts
+end
+
+puts "Regularization shrank the weights as lambda increased. AUC stayed the same up to 0.1, then dropped slightly at 1."
+puts "This shows that regularization can keep the weights from becoming too large without reducing AUC, but too much can make the model worse at separating churners from stayers."
