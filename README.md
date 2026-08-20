@@ -26,6 +26,7 @@ notes explaining design choices, trade-offs, and behaviour.
 - [Naive Bayes classifier with smoothing and cross-validation](machine_learning/naive_bayes/)
 - [Linear regression with gradient descent, ridge regularisation and evaluation](machine_learning/linear_regression/)
 - [Logistic regression with classification metrics, threshold tuning and L2 regularisation](machine_learning/logistic_regression/)
+- [K-Nearest Neighbours with classification, regression, feature scaling and weighted voting](machine_learning/k_nearest_neighbours/)
 
 ### Small projects
 - [Tic-tac-toe with Minimax AI and Red-Black Tree caching](small_projects/tic_tac_toe/)

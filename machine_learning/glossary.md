@@ -114,3 +114,18 @@ A score that combines precision and recall, with a low value in either one pulli
 
 ## AUC (Area Under the ROC Curve)
 A classification metric that measures how well the model ranks positive cases above negative cases. A value of 0.5 is roughly equivalent to random ranking, while 1.0 is perfect.
+
+## Euclidean Distance
+The straight-line distance between two points. KNN uses it to measure how similar two examples are: smaller distance means the examples are more similar.
+
+## K-Nearest Neighbours (KNN)
+A model that predicts using the k most similar stored examples. Classification uses a majority vote, while regression averages their numeric values.
+
+## k
+The number of nearest neighbours KNN considers when making a prediction. Small values are more sensitive to individual points, while larger values produce smoother, more averaged predictions.
+
+## Lazy Learner
+A model that does little or no training and instead does most of its work when making a prediction. KNN is a lazy learner because it mainly stores the training data.
+
+## Weighted KNN
+A version of KNN where closer neighbours have more influence than farther neighbours, usually by giving them a larger weight based on distance.
