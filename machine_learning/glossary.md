@@ -129,3 +129,27 @@ A model that does little or no training and instead does most of its work when m
 
 ## Weighted KNN
 A version of KNN where closer neighbours have more influence than farther neighbours, usually by giving them a larger weight based on distance.
+
+## Gini Impurity
+A measure of how mixed the class labels are in a group. A value of 0 means the group is pure, while higher values mean the labels are more mixed.
+
+## Gain
+A measure of how much a split reduces impurity. A larger gain means the split separates the labels more effectively.
+
+## Node
+A point in a decision tree where the model either asks a question about a feature or returns a prediction.
+
+## Branch
+A path from a node created by one possible answer to the node's question.
+
+## Leaf
+The end of a decision tree branch containing the final prediction.
+
+## Max Depth
+The maximum number of levels a decision tree is allowed to grow. Limiting depth can reduce overfitting, but if the tree is too shallow it can miss useful patterns and underfit.
+
+## Overfitting
+When a model learns the training data too specifically, including noise or accidental patterns, so it performs very well on the training data but may perform poorly on unseen data.
+
+## Numeric Threshold Split
+A decision tree split for a numeric feature that sends values on one side of a threshold down one branch and values on the other side down another. The tree tries possible thresholds and keeps the one with the highest gain.
