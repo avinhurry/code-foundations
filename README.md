@@ -28,6 +28,7 @@ notes explaining design choices, trade-offs, and behaviour.
 - [Logistic regression with classification metrics, threshold tuning and L2 regularisation](machine_learning/logistic_regression/)
 - [K-Nearest Neighbours with classification, regression, feature scaling and weighted voting](machine_learning/k_nearest_neighbours/)
 - [Decision trees with Gini impurity, gain, depth limits and numeric threshold splits](machine_learning/decision_trees/)
+- [Random forests with bagging, bootstrap sampling, feature randomness and OOB scoring](machine_learning/random_forests/)
 
 ### Small projects
 - [Tic-tac-toe with Minimax AI and Red-Black Tree caching](small_projects/tic_tac_toe/)

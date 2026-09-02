@@ -153,3 +153,21 @@ When a model learns the training data too specifically, including noise or accid
 
 ## Numeric Threshold Split
 A decision tree split for a numeric feature that sends values on one side of a threshold down one branch and values on the other side down another. The tree tries possible thresholds and keeps the one with the highest gain.
+
+## Bootstrap Sample
+A new dataset created by randomly sampling from the original data with replacement. It has the same number of rows as the original, but some rows may repeat while others may be missing.
+
+## Out-of-Bag (OOB) Rows
+The training rows that were not selected in a particular bootstrap sample. In larger datasets, roughly 37% of rows are left out of each sample on average.
+
+## Bagging
+Training multiple models on different bootstrap samples of the same dataset, then combining their predictions. It helps reduce the instability of a single model.
+
+## Random Forest
+A collection of decision trees trained on different bootstrap samples, where each split only considers a random subset of features. The trees then vote on the final prediction.
+
+## Ensemble
+A model made by combining the predictions of multiple models. A random forest is an ensemble of decision trees.
+
+## max_features
+The maximum number of randomly chosen features a random forest considers at each split. Smaller values usually make the trees more different from each other, while larger values give each split more choice but can make the trees more similar.
