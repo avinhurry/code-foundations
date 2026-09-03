@@ -171,3 +171,36 @@ A model made by combining the predictions of multiple models. A random forest is
 
 ## max_features
 The maximum number of randomly chosen features a random forest considers at each split. Smaller values usually make the trees more different from each other, while larger values give each split more choice but can make the trees more similar.
+
+## Gradient Boosting
+A model that builds small trees one after another, with each new tree learning to correct the errors left by the current model.
+
+## Decision Stump
+A decision tree with only one split. Gradient boosting can use stumps as simple models for making small corrections.
+
+## Weak Learner
+A deliberately simple model that performs only a little better than a basic guess. Boosting combines many weak learners to create a much stronger model.
+
+## Shrinkage
+In gradient boosting, multiplying each trees correction by the learning rate so the model makes smaller, more gradual updates.
+
+## Test Data
+Data kept separate from training and used to measure how well a model performs on examples it has not seen before.
+
+## Generalisation
+How well a model performs on unseen data rather than only on the data it was trained on.
+
+## Classifier
+A model that predicts a category or class label, such as yes/no or spam/not spam.
+
+## Regressor
+A model that predicts a numeric value, such as a house price or temperature.
+
+## Validation Data
+Data kept separate from training and used during model development to help choose settings such as when to stop training.
+
+## Early Stopping
+Stopping training when validation performance has stopped improving, helping prevent the model from overfitting.
+
+## Patience
+The number of training rounds to wait without validation improvement before early stopping is triggered.

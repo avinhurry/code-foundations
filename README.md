@@ -29,6 +29,7 @@ notes explaining design choices, trade-offs, and behaviour.
 - [K-Nearest Neighbours with classification, regression, feature scaling and weighted voting](machine_learning/k_nearest_neighbours/)
 - [Decision trees with Gini impurity, gain, depth limits and numeric threshold splits](machine_learning/decision_trees/)
 - [Random forests with bagging, bootstrap sampling, feature randomness and OOB scoring](machine_learning/random_forests/)
+- [Gradient boosting with residual correction, learning rate and early stopping](machine_learning/gradient_boosting/)
 
 ### Small projects
 - [Tic-tac-toe with Minimax AI and Red-Black Tree caching](small_projects/tic_tac_toe/)
